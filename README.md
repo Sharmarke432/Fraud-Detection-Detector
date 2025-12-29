@@ -1,6 +1,6 @@
 # Credit Card Fraud Detection – Unsupervised Anomaly Detection
 
-This repository contains an end-to-end **credit card fraud detection** project using **unsupervised learning** on the well-known Kaggle dataset. [web:260][web:264]
+This repository contains an end-to-end **credit card fraud detection** project using **unsupervised learning** on the well-known Kaggle dataset.
 
 The goal is to detect **rare fraudulent transactions (~0.17%)** without relying on labeled data at training time, and to compare two anomaly detection algorithms:
 
