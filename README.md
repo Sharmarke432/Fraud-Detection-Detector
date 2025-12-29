@@ -35,6 +35,7 @@ Follow these steps to run the fraud detection dashboard on your machine.
 
 ### 1️⃣ Clone the repository
 git clone https://github.com/<your-username>/<your-repo>.git
+
 cd <your-repo>
 
 
