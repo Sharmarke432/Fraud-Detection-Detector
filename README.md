@@ -15,6 +15,18 @@ The project includes:
 - 📊 **Evaluation** using AUPRC, ROC-AUC, precision, recall, and confusion matrices  
 - 🖼️ **Visualizations**: score distributions, PR/ROC curves, PCA anomaly plots  
 - 💰 **Business impact analysis**: estimate fraud savings vs investigation cost  
-- 🌐 **(Optional)** Streamlit dashboard for interactive model exploration and demo  
+- 🌐 **(Optional)** Streamlit dashboard for interactive model exploration and demo
+
+
+## 📥 Data
+
+This project uses the **Credit Card Fraud Detection** dataset from Kaggle. [web:291]
+
+Because the CSV is ~150MB and exceeds GitHub's recommended file size, it is **not stored in this repo**.
+
+1. Create a Kaggle account and accept the dataset terms  
+2. Download `creditcard.csv` from:  
+   https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud  [web:291]  
+3. Place the file in the project root, next to `notebook.ipynb` / `app.py`:
 
 This repo is designed as a **portfolio-ready machine learning project** showing how to tackle **highly imbalanced fraud detection** with unsupervised methods, clean code, and clear storytelling. [web:253][web:263][web:267]
