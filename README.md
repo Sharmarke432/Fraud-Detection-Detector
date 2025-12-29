@@ -34,9 +34,9 @@ Because the CSV is ~150MB and exceeds GitHub's recommended file size, it is **no
 Follow these steps to run the fraud detection dashboard on your machine.
 
 ### 1️⃣ Clone the repository
-git clone https://github.com/<your-username>/<your-repo>.git
+git clone https://github.com/https://github.com/Sharmarke432/Fraud-Detection-Detector.git
 
-cd "your-repo"
+cd https://github.com/Sharmarke432/Fraud-Detection-Detector
 
 
 ### 3️⃣ Install dependencies
