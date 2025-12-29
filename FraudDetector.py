@@ -193,6 +193,25 @@ with st.spinner("Training Isolation Forest and LOF..."):
 
 st.success("Models trained successfully.")
 
+# === Single-transaction prediction model (Isolation Forest) ===
+@st.cache_resource
+def fit_iso_for_prediction(df, contamination, n_trees):
+    X_all = df.drop("Class", axis=1)
+    scaler = StandardScaler()
+    X_scaled_all = scaler.fit_transform(X_all)
+    iso_model = IsolationForest(
+        n_estimators=n_trees,
+        contamination=contamination,
+        random_state=42,
+        n_jobs=-1,
+    )
+    iso_model.fit(X_scaled_all)
+    return iso_model, scaler, list(X_all.columns)
+
+iso_model, scaler_pred, feature_names = fit_iso_for_prediction(
+    df, contamination, n_trees
+)
+
 # -------------------------------------------------------------------
 # 4. Metrics summary
 # -------------------------------------------------------------------
@@ -413,3 +432,66 @@ st.markdown(
     "This is a **rough estimate** assuming every detected fraud would have been fully lost "
     f"and every false alarm costs £{investigation_cost} of analyst time."
 )
+
+st.markdown("---")
+st.subheader("🧮 Single transaction prediction")
+
+st.markdown(
+    "Enter feature values for one transaction and the model will return an "
+    "**anomaly score** and a predicted label (`0 = normal`, `1 = suspected fraud`)."
+)
+
+mode = st.radio(
+    "Input mode",
+    ["Use example row from dataset", "Manual input"],
+    horizontal=True,
+)
+
+if mode == "Use example row from dataset":
+    idx = st.number_input(
+        f"Row index from dataset (0 – {len(df) - 1})",
+        min_value=0,
+        max_value=len(df) - 1,
+        value=0,
+        step=1,
+    )
+    example_row = df.iloc[idx].drop("Class")
+    st.write("Selected row features:")
+    st.dataframe(example_row.to_frame("value"))
+    x_raw = example_row.values.reshape(1, -1)
+else:
+    st.info(
+        "Manual mode: start from median values and tweak as needed."
+    )
+    cols = st.columns(3)
+    inputs = []
+    for i, feat in enumerate(feature_names):
+        with cols[i % 3]:
+            val = st.number_input(
+                feat,
+                value=float(df[feat].median()),
+                format="%.4f",
+            )
+        inputs.append(val)
+    x_raw = np.array(inputs, dtype=float).reshape(1, -1)
+
+if st.button("Predict fraud risk"):
+    x_scaled = scaler_pred.transform(x_raw)
+    score = -iso_model.decision_function(x_scaled)[0]
+
+    # use same anomaly rate as the global model
+    threshold = np.percentile(res["iso_scores"], 100 * (1 - contamination))
+    label = int(score > threshold)
+
+    c1, c2 = st.columns(2)
+    with c1:
+        st.metric("Anomaly score", f"{score:.4f}")
+        st.caption("Higher = more anomalous / higher fraud risk")
+    with c2:
+        st.metric("Prediction", "1 (FRAUD)" if label == 1 else "0 (NORMAL)")
+        st.caption(f"Threshold (top {contamination_pct:.2f}% anomalies): {threshold:.4f}")
+
+    st.markdown(
+        "- **Score > threshold** → flagged as anomaly (suspected fraud)\n"
+        "- **Score ≤ threshold** → treated as normal transaction"
+    )
