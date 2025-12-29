@@ -29,4 +29,17 @@ Because the CSV is ~150MB and exceeds GitHub's recommended file size, it is **no
    https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud  [web:291]  
 3. Place the file in the project root, next to `notebook.ipynb` / `app.py`:
 
+## 🚀 Running the Streamlit app locally
+
+Follow these steps to run the fraud detection dashboard on your machine.
+
+### 1️⃣ Clone the repository
+git clone https://github.com/<your-username>/<your-repo>.git
+cd <your-repo>
+
+
+### 3️⃣ Install dependencies
+If you have a `requirements.txt`:
+   pip install -r requirements.txt
+
 This repo is designed as a **portfolio-ready machine learning project** showing how to tackle **highly imbalanced fraud detection** with unsupervised methods, clean code, and clear storytelling. [web:253][web:263][web:267]
